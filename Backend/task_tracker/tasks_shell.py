@@ -17,7 +17,11 @@ class TaskShell(cmd.Cmd):
             print(f"Task added successfully (ID: {id})")
 
     def do_list(self, arg):
-        print("listing")
+        if arg != '':
+            print(arg)
+            self.tracker.listTasks(arg)
+        else:
+            self.tracker.listTasks()
 
     def do_update(self, arg):
         args = arg.split(' ')

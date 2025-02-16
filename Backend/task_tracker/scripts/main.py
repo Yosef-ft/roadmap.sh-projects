@@ -2,6 +2,8 @@ import os
 import json
 from .utils import Utils
 from datetime import datetime
+from typing import *
+
 
 class TaskTracker:
     def __init__(self):
@@ -70,7 +72,20 @@ class TaskTracker:
                     task.update({"status": statusType})        
 
         with open(self.file_path, 'w') as file:
-            json.dump(tasks, file, indent=4)            
+            json.dump(tasks, file, indent=4)     
+
+    def listTasks(self, statusType: Optional[str] = None):
+        with open(self.file_path, 'r') as file:
+            tasks = json.load(file) 
+
+        if statusType == None:
+            for task in tasks['Tasks']:
+                print(task)
+        else:
+            for task in tasks['Tasks']:
+                if task['status'] == statusType:
+                    print(task)
+
 
 if __name__ == "__main__":
     task = TaskTracker()
