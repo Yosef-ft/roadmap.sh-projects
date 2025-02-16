@@ -45,6 +45,20 @@ class TaskTracker:
         with open(self.file_path, 'w') as file:
             json.dump(tasks, file, indent=4)
 
+
+
+    def deleteTask(self, id: int):
+
+        with open(self.file_path, 'r') as file:
+            tasks = json.load(file)
+
+            for inx, task in enumerate(tasks['Tasks']):
+                if task['id'] == id:
+                    tasks['Tasks'].pop(inx)
+
+        with open(self.file_path, 'w') as file:
+            json.dump(tasks, file, indent=4)
+
 if __name__ == "__main__":
     task = TaskTracker()
     task.addTask('Learn backend')

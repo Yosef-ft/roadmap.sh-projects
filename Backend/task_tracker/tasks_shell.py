@@ -28,7 +28,8 @@ class TaskShell(cmd.Cmd):
 
 
     def do_delete(self, arg):
-        print('deleting')
+        id: int = int(arg)
+        self.tracker.deleteTask(id)
 
     def do_mark(self, arg):
         print("marking")

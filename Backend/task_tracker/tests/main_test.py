@@ -102,5 +102,24 @@ class TestTaskTracker(unittest.TestCase):
         self.assertEqual(actual_written_content, expected_written_content)
         
 
+    @patch('builtins.open', new_callable=mock_open, read_data= '{"Tasks": [{"id": 1, "description": "mock description", "status": "not done", "createdAt": "2025-01-01 10:00:00.0", "updatedAt": "2025-01-01 10:00:00.0"}]}')
+    def test_delete(self, mock_file: MagicMock):
+
+        mock_file_path = 'mock.json'
+        tasks = TaskTracker()
+        tasks.file_path = mock_file_path
+
+        tasks.deleteTask(1)
+
+        mock_file.assert_any_call(mock_file_path, 'r')  
+        mock_file.assert_any_call(mock_file_path, 'w')
+
+        expected_written_content = json.dumps({"Tasks": []}, indent=4)
+
+        handle: MagicMock = mock_file()
+        actual_written_content = "".join(call[0][0] for call in handle.write.call_args_list)
+
+        self.assertEqual(expected_written_content, actual_written_content)
+
 if __name__ == '__main__':
     unittest.main()        
