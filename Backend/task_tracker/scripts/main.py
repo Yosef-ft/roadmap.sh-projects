@@ -32,6 +32,18 @@ class TaskTracker:
 
             return task_dict['id']
         
+    
+    def updateTask(self, id: int, updatedTask: str):
+
+        with open(self.file_path, 'r') as file:
+            tasks = json.load(file)
+
+            for task in tasks['Tasks']:
+                if task['id'] == id:
+                    task.update({"description": updatedTask})
+            
+        with open(self.file_path, 'w') as file:
+            json.dump(tasks, file, indent=4)
 
 if __name__ == "__main__":
     task = TaskTracker()

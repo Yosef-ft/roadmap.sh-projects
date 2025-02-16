@@ -20,7 +20,12 @@ class TaskShell(cmd.Cmd):
         print("listing")
 
     def do_update(self, arg):
-        print("updating")
+        args = arg.split(' ')
+        id: int = args[0]
+        args.pop(0)
+        description: str = ' '.join(args).replace("\"", '').strip()
+        self.tracker.updateTask(int(id), description)
+
 
     def do_delete(self, arg):
         print('deleting')

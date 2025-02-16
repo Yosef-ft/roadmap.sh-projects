@@ -1,7 +1,11 @@
+import os
+import sys
 import unittest
 from unittest.mock import patch, MagicMock, mock_open
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from scripts.main import TaskTracker
 from datetime import datetime
+import json
 
 class TestTaskTracker(unittest.TestCase):
 
@@ -65,6 +69,37 @@ class TestTaskTracker(unittest.TestCase):
 
         opening_data = mock_open()
         opening_data.seek.assert_called_once_with(0)
+
+
+    @patch('builtins.open', new_callable=mock_open, read_data='{"Tasks": [{"id": 1, "description": "mock description", "status": "not done", "createdAt": "2025-01-01 10:00:00.0", "updatedAt": "2025-01-01 10:00:00.0"}]}')
+    def test_updateTask(self, mock_file: MagicMock):
+        
+        mock_file_path = 'mock.json'
+        tasks = TaskTracker()
+        tasks.file_path = mock_file_path  
+
+        
+        tasks.updateTask(1, 'update mock')  
+
+        
+        mock_file.assert_any_call(mock_file_path, 'r')  
+        mock_file.assert_any_call(mock_file_path, 'w')  
+
+        expected_updated_task = {
+            "id": 1,
+            "description": "update mock",
+            "status": "not done",
+            "createdAt": "2025-01-01 10:00:00.0",
+            "updatedAt": "2025-01-01 10:00:00.0"
+        }    
+
+        expected_written_content = json.dumps({"Tasks": [expected_updated_task]}, indent=4)
+
+       
+        handle: MagicMock = mock_file()
+        actual_written_content = "".join(call[0][0] for call in handle.write.call_args_list)
+        
+        self.assertEqual(actual_written_content, expected_written_content)
         
 
 if __name__ == '__main__':
