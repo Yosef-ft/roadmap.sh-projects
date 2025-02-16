@@ -32,7 +32,10 @@ class TaskShell(cmd.Cmd):
         self.tracker.deleteTask(id)
 
     def do_mark(self, arg):
-        print("marking")
+        args = arg.split(' ')
+        id: int = int(args[1])
+        status: str = args[0].replace('-', ' ').strip()
+        self.tracker.updateStatus(status, id)
 
 
     def do_exit(self, arg):
