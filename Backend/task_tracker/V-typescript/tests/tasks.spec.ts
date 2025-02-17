@@ -3,6 +3,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import {TaskTracker} from '../src/main'
 import exp from "constants";
+import { json } from "stream/consumers";
 
 describe("Task tests", () =>{
   let tracker: TaskTracker;
@@ -82,5 +83,17 @@ describe("Task tests", () =>{
   })
 
 
+  it('should update the status', () =>{
+    const mockTasks = { Tasks: [{ id: 1, description: 'first Task', status: 'todo' }] };
+
+    vi.spyOn(fs, 'readFileSync').mockReturnValue(JSON.stringify(mockTasks))
+
+    const writeSpy = vi.spyOn(fs, 'writeFileSync')
+
+    tracker.updateStatus(1, 'done')
+    
+    const updatedTask = JSON.parse(writeSpy.mock.calls[0][1] as string)
+    expect(updatedTask.Tasks[0].status).toBe('done')
+  })
 
 })

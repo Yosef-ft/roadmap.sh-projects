@@ -76,6 +76,18 @@ export class TaskTracker {
     let tasks: Task[]= data.Tasks.filter(t => t.id !== id);
     this.writeTask(tasks)
   }
+
+
+  updateStatus(id: number, status: Status):void{
+    const data = this.readTask()
+    let task: Task | undefined = data.Tasks.find(t => t.id === id);
+    if (task){
+      task.status = status;
+      this.writeTask(data.Tasks)
+    }else {
+      console.error(`Task with ID ${id} not found.`);
+    }
+  }
 }
 
 
