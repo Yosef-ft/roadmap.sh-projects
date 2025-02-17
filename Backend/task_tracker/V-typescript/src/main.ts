@@ -88,6 +88,21 @@ export class TaskTracker {
       console.error(`Task with ID ${id} not found.`);
     }
   }
+
+
+  listTasks(statusType?: string){
+    const data = this.readTask()
+    if (!statusType){
+      data.Tasks.forEach(task => {
+        console.log(task)
+      });
+    }
+    else{
+      data.Tasks.forEach(task => {
+        if (task.status === statusType) console.log(task)
+      });      
+    }
+  }
 }
 
 
