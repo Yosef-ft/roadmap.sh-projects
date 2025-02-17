@@ -70,6 +70,12 @@ export class TaskTracker {
     }
   }
   
+
+  deleteTask(id: number){
+    const data = this.readTask();
+    let tasks: Task[]= data.Tasks.filter(t => t.id !== id);
+    this.writeTask(tasks)
+  }
 }
 
 

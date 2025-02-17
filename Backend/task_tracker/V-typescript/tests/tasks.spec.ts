@@ -64,5 +64,23 @@ describe("Task tests", () =>{
 
     expect(writtenData.Tasks[0].description).toBe('Updated Task');
     expect(writeSpy).toHaveBeenCalledTimes(1); 
-});
+  });
+
+
+  it('should delete a task', () =>{
+    const mockTasks = { Tasks: [{ id: 1, description: 'first Task', updatedAt: '' }] };
+
+    vi.spyOn(fs, 'readFileSync').mockReturnValue(JSON.stringify(mockTasks))
+
+    const writeSpy = vi.spyOn(fs, 'writeFileSync');
+
+    tracker.deleteTask(1);
+
+    const writtenData = JSON.parse(writeSpy.mock.calls[0][1] as string)
+
+    expect(writtenData.Tasks.length).toBe(0)
+  })
+
+
+
 })
