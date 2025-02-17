@@ -2,7 +2,7 @@ import { beforeEach, describe, it, expect, vi, afterEach } from "vitest";
 import * as fs from 'fs'
 import * as path from 'path'
 import {TaskTracker} from '../src/main'
-import { JsxEmit } from "typescript";
+import exp from "constants";
 
 describe("Task tests", () =>{
   let tracker: TaskTracker;
@@ -49,4 +49,20 @@ describe("Task tests", () =>{
     expect(fs.mkdirSync).toHaveBeenCalledOnce()
   })
 
+  
+  it('should update the task', () => {
+   
+    const mockTasks = { Tasks: [{ id: 1, description: 'first Task', updatedAt: '' }] };
+
+    vi.spyOn(fs, 'readFileSync').mockReturnValue(JSON.stringify(mockTasks));
+
+    const writeSpy = vi.spyOn(fs, 'writeFileSync');
+
+    tracker.updateTask('Updated Task', 1);
+
+    const writtenData = JSON.parse(writeSpy.mock.calls[0][1] as string); 
+
+    expect(writtenData.Tasks[0].description).toBe('Updated Task');
+    expect(writeSpy).toHaveBeenCalledTimes(1); 
+});
 })

@@ -55,7 +55,19 @@ export class TaskTracker {
     data.Tasks.push(newTask)
     this.writeTask(data.Tasks)
     return newTask.id
+  }
 
+
+  updateTask(newDescription: string, id: number): void{
+    const data =  this.readTask();
+    let task: Task | undefined = data.Tasks.find(task => task.id === id);
+    if (task) {
+      task.description = newDescription;
+      task.updatedAt = new Date().toISOString();
+      this.writeTask(data.Tasks);
+    } else {
+      console.error(`Task with ID ${id} not found.`);
+    }
   }
   
 }
