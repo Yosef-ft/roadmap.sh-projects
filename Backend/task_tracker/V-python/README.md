@@ -19,7 +19,7 @@ git clone <repository-url>
 
 2. Navigate to the project directory:
 ```
-cd Backend/task_tracker
+cd Backend/V-python/task_tracker
 ```
 
 3. Install the required dependencies:
