@@ -12,6 +12,7 @@ This repository contains projects built following the [roadmap.sh](https://roadm
 
 ## Backend Projets List
 [Task tracker](https://roadmap.sh/projects/task-tracker)
+[Github user activity](https://roadmap.sh/projects/github-user-activity)
 
 
 ## Backend: My solutions
@@ -20,4 +21,7 @@ This repository contains projects built following the [roadmap.sh](https://roadm
 </p>
 <p>
   <a href='/Backend/task_tracker/V-typescript/'>Task tracker implemented in Typescript</a>
+</p>
+<p>
+  <a href='/Backend/github_activity/V-typescript/'>Github user activity implemented in Typescript</a>
 </p>
